@@ -19,6 +19,18 @@ Thanks to [Krystian Hebel](https://github.com/krystian-hebel) for nice howto
 
 https://blog.3mdeb.com/2019/2019-04-17-roca/
 
+## Firmware
+
+Firmware can be difficul to find because Infineon does not distribute firmware
+updates itself and leaves it up to its customers (eg. HP, Dell, SuperMicro,
+etc). Some OEMs package the updates in Windows binaries from which there may be
+no known method to extract the firmware. Here is a list of some firmware
+packages:
+
+* [SLB 965x](https://www.supermicro.com/wdl/driver/TPM/9655FW%20update%20package_1.4.zip)
+* [SLB 966x](https://www.supermicro.com/wdl/driver/TPM/9665FW%20update%20package_1.5.zip)
+* [SLB 9670](https://www.supermicro.com/wdl/driver/TPM/AOM-TPM-9670VH_7.62.3126.0.zip)
+
 ## Usage
 ```
 $ ./Source/TPMFactoryUpd/TPMFactoryUpd
