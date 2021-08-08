@@ -27,6 +27,7 @@ CFLAGS+= \
 	-Wcast-align \
 	-Wswitch-default \
 	-Wunreachable-code \
+	-Wimplicit-fallthrough=1 \
 	-DLINUX
 
 CC = gcc
