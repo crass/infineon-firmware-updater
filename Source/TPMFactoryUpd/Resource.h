@@ -110,6 +110,7 @@
 #define CMD_TPM12_CLEAROWNERSHIP					L"tpm12-clearownership"
 #define CMD_ACCESS_MODE								L"access-mode"
 #define CMD_CONFIG									L"config"
+#define CMD_DRY_RUN									L"dry-run"
 
 // --------------- Help Output ---------------------
 #define HELP_LINE1		L"Call: TPMFactoryUpd [parameter] [parameter] ..."
@@ -154,6 +155,8 @@
 #define HELP_LINE40		L"      with PCH TPM support)"
 #define HELP_LINE41		L"  3 - Linux TPM driver. The <path> option can be set to define a device path"
 #define HELP_LINE42		L"      (default value: /dev/tpm0)"
+#define HELP_LINE43		L"\n-%ls" /* use with format CMD_DRY_RUN */
+#define HELP_LINE44		L"  Optional parameter. Do everything except actually updating the image."
 
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.

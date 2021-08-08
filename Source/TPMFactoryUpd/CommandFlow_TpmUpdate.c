@@ -272,6 +272,7 @@ CommandFlow_TpmUpdate_UpdateFirmware(
 	_Inout_ IfxUpdate* PpTpmUpdate)
 {
 	unsigned int unReturnValue = RC_E_FAIL;
+	BOOL fValue = FALSE;
 
 	LOGGING_WRITE_LEVEL4(LOGGING_METHOD_ENTRY_STRING);
 
@@ -327,7 +328,17 @@ CommandFlow_TpmUpdate_UpdateFirmware(
 		sFirmwareUpdateData.fnUpdateStartedCallback = &CommandFlow_TpmUpdate_UpdateStartedCallback;
 		sFirmwareUpdateData.rgbFirmwareImage = PpTpmUpdate->rgbFirmwareImage;
 		sFirmwareUpdateData.unFirmwareImageSize = PpTpmUpdate->unFirmwareImageSize;
-		PpTpmUpdate->unReturnCode = FirmwareUpdate_UpdateImage(&sFirmwareUpdateData);
+		if (TRUE == PropertyStorage_GetBooleanValueByKey(PROPERTY_DRY_RUN, &fValue) && TRUE == fValue)
+		{
+			PpTpmUpdate->unReturnCode = RC_SUCCESS;
+			for (unsigned long long ullProgress = 25; ullProgress <= 100; ullProgress += 25)
+			{
+				Platform_SleepMicroSeconds(2*1000*1000);
+				Response_ProgressCallback(ullProgress);
+			}
+		}
+		else
+			PpTpmUpdate->unReturnCode = FirmwareUpdate_UpdateImage(&sFirmwareUpdateData);
 		unReturnValue = RC_SUCCESS;
 		if (RC_SUCCESS != PpTpmUpdate->unReturnCode)
 			break;

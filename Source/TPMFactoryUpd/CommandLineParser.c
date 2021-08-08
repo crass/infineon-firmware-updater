@@ -316,6 +316,20 @@ CommandLineParser_Parse(
 			break;
 		}
 
+		// **** -dry-run
+		if (0 == Platform_StringCompare(PwszCommandLineOption, CMD_DRY_RUN, RG_LEN(CMD_DRY_RUN), TRUE))
+		{
+			unReturnValue = CommandLineParser_CheckCommandLineOptions(PwszCommandLineOption);
+			if (RC_SUCCESS != unReturnValue)
+				break;
+
+			// Add dry_run property, ignore return value because CommandLineParser_CheckCommandLineOptions takes care of doubled given options
+			IGNORE_RETURN_VALUE(PropertyStorage_AddKeyBooleanValuePair(PROPERTY_DRY_RUN, TRUE));
+
+			unReturnValue = CommandLineParser_IncrementOptionCount();
+			break;
+		}
+
 		unReturnValue = RC_E_BAD_COMMANDLINE;
 		ERROR_STORE_FMT(unReturnValue, L"Unknown command line parameter (%ls).", PwszCommandLineOption);
 	}
@@ -642,6 +656,7 @@ CommandLineParser_CheckCommandLineOptions(
 		BOOL fClearOwnership = FALSE;
 		BOOL fAccessMode = FALSE;
 		BOOL fConfigFileOption = FALSE;
+		BOOL fDryRunOption = FALSE;
 
 		// Read Property storage
 		if (TRUE == PropertyStorage_ExistsElement(PROPERTY_HELP))
@@ -660,6 +675,8 @@ CommandLineParser_CheckCommandLineOptions(
 			fAccessMode = TRUE;
 		if (TRUE == PropertyStorage_ExistsElement(PROPERTY_CONFIG_FILE_PATH))
 			fConfigFileOption = TRUE;
+		if (TRUE == PropertyStorage_ExistsElement(PROPERTY_DRY_RUN))
+			fDryRunOption = TRUE;
 
 		// **** -help [Help]
 		if (0 == Platform_StringCompare(PwszCommand, CMD_HELP, RG_LEN(CMD_HELP), TRUE) ||
@@ -761,6 +778,15 @@ CommandLineParser_CheckCommandLineOptions(
 					TRUE == fInfoOption ||
 					TRUE == fClearOwnership ||
 					TRUE == fFwPathUpdateOption)
+				unReturnValue = RC_E_BAD_COMMANDLINE;
+			break;
+		}
+
+		// **** -dry-run [DryRun]
+		if (0 == Platform_StringCompare(PwszCommand, CMD_DRY_RUN, RG_LEN(CMD_DRY_RUN), TRUE))
+		{
+			// Command line parameter 'dry-run' can be combined with any parameters, though has meaning only for 'update'
+			if (TRUE == fDryRunOption) // And parameter 'dry-run' should not be given twice
 				unReturnValue = RC_E_BAD_COMMANDLINE;
 			break;
 		}

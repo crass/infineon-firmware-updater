@@ -66,6 +66,8 @@ extern "C" {
 #define PROPERTY_CONFIG_TARGET_FIRMWARE_VERSION_LPC	L"TargetFirmwareVersionLPC"
 /// Define for Firmware Folder Path
 #define PROPERTY_CONFIG_FIRMWARE_FOLDER_PATH	L"FirmwareFolderPath"
+/// Define for dry run property
+#define PROPERTY_DRY_RUN				L"DryRun"
 
 #ifdef __cplusplus
 }
