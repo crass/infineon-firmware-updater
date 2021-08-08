@@ -13,7 +13,6 @@
 #
 # The makefile uses the gcc compiler.
 #
-STRIP=strip --strip-unneeded $@  # Don't strip if you want to debug
 #FPACK+= -fpack-struct # Don't pack structs globally. This would crash OpenSSL decrypt operation
 
 # Basic compiler options
@@ -30,13 +29,17 @@ CFLAGS+= \
 	-Wimplicit-fallthrough=1 \
 	-DLINUX
 
-CC = gcc
+# Additional flags to make the source compile with clang.
+CFLAGS+= \
+	-Wno-newline-eof \
+	-Wno-gnu-zero-variadic-macro-arguments \
+	-Wno-cast-align
 
 # Export compiler flags to sub-makefiles
 export CFLAGS
 export CC
 
-LDFLAGS=\
+LDFLAGS+=\
 	-lcrypt -L../Common/Crypt \
 	-lplatform -L../Common/Platform \
 	-lmicrotss -L../Common/MicroTss \
@@ -104,7 +107,7 @@ coverage: LDFLAGS+=--coverage
 coverage: TPMFactoryUpd
 
 $(OBJFILES): %.o: %.c
-	$(CC) -c $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
 
 TPMFactoryUpd: $(OBJFILES)
 	# Call shared sub-makefiles to generate archives
@@ -115,8 +118,7 @@ TPMFactoryUpd: $(OBJFILES)
 	$(MAKE) -C ../Common/TpmDeviceAccess
 	$(MAKE) -C ../Common/Crypt
 	# And run the actual makefile job
-	$(CC) $^ -o $@ $(LDFLAGS)
-	$(STRIP)
+	$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS)
 
 clean:
 	# Call shared sub-makefiles to cleanup archives

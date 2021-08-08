@@ -40,10 +40,10 @@ vpath %.h $(INCLUDE_DIRS)
 all: libtpmdeviceaccess.a
 
 $(OBJFILES): %.o: %.c
-	$(CC) -c $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
 
 libtpmdeviceaccess.a: $(OBJFILES)
-	ar $(ARFLAGS) $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 clean:
 	rm -rfv *.o libtpmdeviceaccess.a

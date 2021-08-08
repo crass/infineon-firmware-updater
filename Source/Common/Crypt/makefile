@@ -38,10 +38,10 @@ vpath %.h $(INCLUDE_DIRS)
 all: libcrypt.a
 
 $(OBJFILES): %.o: %.c
-	$(CC) -c $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
 
 libcrypt.a: $(OBJFILES)
-	ar $(ARFLAGS) $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 clean:
 	rm -rfv *.o libcrypt.a

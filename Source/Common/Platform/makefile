@@ -36,10 +36,10 @@ vpath %.h $(INCLUDE_DIRS)
 all: libplatform.a
 
 $(OBJFILES): %.o: %.c
-	$(CC) -c $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
 
 libplatform.a: $(OBJFILES)
-	ar $(ARFLAGS) $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 clean:
 	rm -rfv *.o libplatform.a

@@ -71,10 +71,10 @@ vpath %.h $(INCLUDE_DIRS)
 all: libmicrotss.a
 
 $(OBJFILES): %.o: %.c
-	$(CC) -c $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) $(FPACK) $(INCLUDES) $< -o $@
 
 libmicrotss.a: $(OBJFILES)
-	ar $(ARFLAGS) $@ $^
+	$(AR) $(ARFLAGS) $@ $^
 
 clean:
 	rm -rfv *.o libmicrotss.a
