@@ -1,5 +1,5 @@
 # Infineon firmware updater
-Infineon TPM firmware updater for Linux
+Infineon TPM firmware updater for Linux with Chrome OS patches
 
 The [Readme.txt](Readme.txt) is the official one from Infineon for this
 software. See the [user manual](Doc/TPMFactoryUpd_UserManual.pdf) for detailed
@@ -8,7 +8,7 @@ instrcutions on using the firmware update tool. Additionally there is official
 
 ## Build
 Requirements: 
-* openssl-1.0
+* openssl-1.1
 ```sh
 make -C Source/TPMFactoryUpd
 ```
@@ -42,6 +42,7 @@ Parameters:
   Updates a TPM with <update-type>.
   Possible values for <update-type> are:
    tpm12-PP - TPM1.2 with Physical Presence or Deferred Physical Presence.
+   tpm12-takeownership - TPM1.2 with TPM Ownership taken by TPMFactoryUpd.
    tpm20-emptyplatformauth - TPM2.0 with platformAuth set to Empty Buffer.
    config-file - Updates either a TPM1.2 or TPM2.0 to the firmware version
                  configured in the configuration file. Requires the -config parameter.
@@ -75,6 +76,12 @@ Parameters:
       with PCH TPM support)
   3 - Linux TPM driver. The <path> option can be set to define a device path
       (default value: /dev/tpm0)
+
+-dry-run
+  Optional parameter. Do everything except actually updating the image.
+
+-ignore-error-on-complete
+  Optional parameter. Ignores TPM_FAIL errors from FieldUpgradeComplete.
 ```
 
 ## Sources
@@ -82,7 +89,7 @@ Main archive:
 https://www.supermicro.com/wdl/driver/TPM/TPM_FU_v1.01.2529.00_ToolsOnly_Linux_SourceCode.tar.gz
 
 Patches:
-* https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/chromeos-base/infineon-firmware-updater/files/openssl-1.1.patch
+* https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/chromeos-base/infineon-firmware-updater/
 
 ## Credits
 The impetus for this repo was partially inspired by:
