@@ -342,7 +342,7 @@ CommandFlow_TpmUpdate_UpdateFirmware(
 	WHILE_FALSE_END;
 
 	// Try to close policy session in case of errors (only if session has already been started)
-	if ((RC_SUCCESS != unReturnValue || RC_SUCCESS != PpTpmUpdate->unReturnCode) && 0 != PpTpmUpdate->hPolicySession)
+	if ((RC_SUCCESS != unReturnValue || (NULL != PpTpmUpdate && RC_SUCCESS != PpTpmUpdate->unReturnCode)) && (NULL != PpTpmUpdate && 0 != PpTpmUpdate->hPolicySession))
 	{
 		IGNORE_RETURN_VALUE(TSS_TPM2_FlushContext(PpTpmUpdate->hPolicySession));
 		PpTpmUpdate->hPolicySession = 0;
@@ -867,9 +867,6 @@ CommandFlow_TpmUpdate_Parse(
 					break;
 				}
 			}
-
-			// Unknown setting in current section ignore it
-			unReturnValue = RC_SUCCESS;
 		}
 
 		// Unknown section ignore it
