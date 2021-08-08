@@ -61,7 +61,8 @@ extern "C" {
 #define CONFIG_FIRMWARE_FOLDER_PATH		L"path"
 
 /// Default max log file size in kilobyte
-#define LOGGING_FILE_MAX_SIZE			1024
+/// Set to 0 to disable and ensure log file is opened in O_APPEND mode.
+#define LOGGING_FILE_MAX_SIZE			0
 
 /// Definition of Locality 0 for accessing TPM
 #define LOCALITY_0						0
