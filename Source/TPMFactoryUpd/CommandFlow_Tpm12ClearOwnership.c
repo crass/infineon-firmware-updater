@@ -48,12 +48,12 @@ CommandFlow_Tpm12ClearOwnership_Execute(
 	{
 		// TPM operation mode
 		TPM_STATE sTpmState = {{0}};
-		// SHA1 Hash of an owner password 1...8
+		// SHA1 Hash of the default owner password
 		TPM_AUTHDATA ownerAuthData = {{
-				0x7c, 0x22, 0x2f, 0xb2, 0x92,
-				0x7d, 0x82, 0x8a, 0xf2, 0x2f,
-				0x59, 0x21, 0x34, 0xe8, 0x93,
-				0x24, 0x80, 0x63, 0x7c, 0x0d
+				0x67, 0x68, 0x03, 0x3e, 0x21,
+				0x64, 0x68, 0x24, 0x7b, 0xd0,
+				0x31, 0xa0, 0xa2, 0xd9, 0x87,
+				0x6d, 0x79, 0x81, 0x8f, 0x8f
 			}
 		};
 
@@ -113,7 +113,7 @@ CommandFlow_Tpm12ClearOwnership_Execute(
 			break;
 		}
 
-		// Check if owner authorization password is 1...8 as expected
+		// Check if owner authorization password is the default value as expected
 		unReturnValue = FirmwareUpdate_CheckOwnerAuthorization(ownerAuthData.authdata);
 		if (RC_SUCCESS != unReturnValue)
 		{
@@ -121,7 +121,7 @@ CommandFlow_Tpm12ClearOwnership_Execute(
 			if (TPM_AUTHFAIL == (unReturnValue ^ RC_TPM_MASK))
 			{
 				unReturnValue = RC_E_TPM12_INVALID_OWNERAUTH;
-				ERROR_STORE(unReturnValue, L"The owner password is not 1...8. Owner authentication check failed.");
+				ERROR_STORE(unReturnValue, L"The owner password is not default. Owner authentication check failed.");
 			}
 			break;
 		}
