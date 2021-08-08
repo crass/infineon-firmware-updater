@@ -330,6 +330,20 @@ CommandLineParser_Parse(
 			break;
 		}
 
+		// **** -ignore-error-on-complete
+		if (0 == Platform_StringCompare(PwszCommandLineOption, CMD_IGNORE_ERROR_ON_COMPLETE, RG_LEN(CMD_IGNORE_ERROR_ON_COMPLETE), TRUE))
+		{
+			unReturnValue = CommandLineParser_CheckCommandLineOptions(PwszCommandLineOption);
+			if (RC_SUCCESS != unReturnValue)
+				break;
+
+			// Add IgnoreErrorOnComplete property, ignore return value because CommandLineParser_CheckCommandLineOptions takes care of doubled given options
+			IGNORE_RETURN_VALUE(PropertyStorage_AddKeyBooleanValuePair(PROPERTY_IGNORE_ERROR_ON_COMPLETE, TRUE));
+
+			unReturnValue = CommandLineParser_IncrementOptionCount();
+			break;
+		}
+
 		unReturnValue = RC_E_BAD_COMMANDLINE;
 		ERROR_STORE_FMT(unReturnValue, L"Unknown command line parameter (%ls).", PwszCommandLineOption);
 	}
@@ -657,6 +671,7 @@ CommandLineParser_CheckCommandLineOptions(
 		BOOL fAccessMode = FALSE;
 		BOOL fConfigFileOption = FALSE;
 		BOOL fDryRunOption = FALSE;
+		BOOL fIgnoreErrorOnComplete = FALSE;
 
 		// Read Property storage
 		if (TRUE == PropertyStorage_ExistsElement(PROPERTY_HELP))
@@ -677,6 +692,8 @@ CommandLineParser_CheckCommandLineOptions(
 			fConfigFileOption = TRUE;
 		if (TRUE == PropertyStorage_ExistsElement(PROPERTY_DRY_RUN))
 			fDryRunOption = TRUE;
+		if (TRUE == PropertyStorage_ExistsElement(PROPERTY_IGNORE_ERROR_ON_COMPLETE))
+			fIgnoreErrorOnComplete = TRUE;
 
 		// **** -help [Help]
 		if (0 == Platform_StringCompare(PwszCommand, CMD_HELP, RG_LEN(CMD_HELP), TRUE) ||
@@ -787,6 +804,15 @@ CommandLineParser_CheckCommandLineOptions(
 		{
 			// Command line parameter 'dry-run' can be combined with any parameters, though has meaning only for 'update'
 			if (TRUE == fDryRunOption) // And parameter 'dry-run' should not be given twice
+				unReturnValue = RC_E_BAD_COMMANDLINE;
+			break;
+		}
+
+		// **** -ignore-error-on-complete [IgnoreErrorOnComplete]
+		if (0 == Platform_StringCompare(PwszCommand, CMD_IGNORE_ERROR_ON_COMPLETE, RG_LEN(CMD_IGNORE_ERROR_ON_COMPLETE), TRUE))
+		{
+			// Command line parameter 'ignore-error-on-complete' can be combined with any parameters, though has meaning only for 'update'
+			if (TRUE == fIgnoreErrorOnComplete) // And parameter 'ignore-error-on-complete' should not be given twice
 				unReturnValue = RC_E_BAD_COMMANDLINE;
 			break;
 		}

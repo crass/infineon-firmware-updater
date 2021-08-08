@@ -1471,11 +1471,23 @@ _Check_return_ unsigned int FirmwareUpdate_Complete(
 		uint16_t usOutCompleteSize = 0;
 		BYTE bCompleteData = 0;
 
-		if (RC_SUCCESS != TSS_TPM_FieldUpgradeComplete(usCompleteDataSize, &bCompleteData, &usOutCompleteSize))
+		unReturnValue = TSS_TPM_FieldUpgradeComplete(usCompleteDataSize, &bCompleteData, &usOutCompleteSize);
+		if (TPM_RC_SUCCESS != unReturnValue)
 		{
-			ERROR_STORE_FMT(RC_E_FIRMWARE_UPDATE_FAILED, L"TSS_TPM_FieldUpgradeComplete returned an unexpected value. (0x%.8x)", unReturnValue);
-			unReturnValue = RC_E_FIRMWARE_UPDATE_FAILED;
-			break;
+			BOOL fIgnoreError = FALSE;
+			if (TPM_FAIL == (unReturnValue ^ RC_TPM_MASK) &&
+				TRUE == PropertyStorage_GetBooleanValueByKey(PROPERTY_IGNORE_ERROR_ON_COMPLETE, &fIgnoreError) &&
+				TRUE == fIgnoreError)
+			{
+				LOGGING_WRITE_LEVEL1(L"TSS_TPM_FieldUpgradeComplete returned TPM_FAIL - ignoring.");
+				usOutCompleteSize = 0;
+			}
+			else
+			{
+				ERROR_STORE_FMT(RC_E_FIRMWARE_UPDATE_FAILED, L"TSS_TPM_FieldUpgradeComplete returned an unexpected value. (0x%.8x)", unReturnValue);
+				unReturnValue = RC_E_FIRMWARE_UPDATE_FAILED;
+				break;
+			}
 		}
 
 		// Check if out parameter is as expected (zero)

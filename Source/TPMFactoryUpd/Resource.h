@@ -111,6 +111,7 @@
 #define CMD_ACCESS_MODE								L"access-mode"
 #define CMD_CONFIG									L"config"
 #define CMD_DRY_RUN									L"dry-run"
+#define CMD_IGNORE_ERROR_ON_COMPLETE				L"ignore-error-on-complete"
 
 // --------------- Help Output ---------------------
 #define HELP_LINE1		L"Call: TPMFactoryUpd [parameter] [parameter] ..."
@@ -157,6 +158,8 @@
 #define HELP_LINE42		L"      (default value: /dev/tpm0)"
 #define HELP_LINE43		L"\n-%ls" /* use with format CMD_DRY_RUN */
 #define HELP_LINE44		L"  Optional parameter. Do everything except actually updating the image."
+#define HELP_LINE45		L"\n-%ls" /* use with format CMD_IGNORE_ERROR_ON_COMPLETE */
+#define HELP_LINE46		L"  Optional parameter. Ignores TPM_FAIL errors from FieldUpgradeComplete."
 
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.

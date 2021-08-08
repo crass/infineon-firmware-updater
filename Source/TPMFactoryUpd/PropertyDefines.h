@@ -68,6 +68,8 @@ extern "C" {
 #define PROPERTY_CONFIG_FIRMWARE_FOLDER_PATH	L"FirmwareFolderPath"
 /// Define for dry run property
 #define PROPERTY_DRY_RUN				L"DryRun"
+/// Define for IgnoreErrorOnComplete property
+#define PROPERTY_IGNORE_ERROR_ON_COMPLETE		L"IgnoreErrorOnComplete"
 
 #ifdef __cplusplus
 }
