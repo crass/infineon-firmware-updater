@@ -1,6 +1,11 @@
 # Infineon firmware updater
 Infineon TPM firmware updater for Linux
 
+The [Readme.txt](Readme.txt) is the official one from Infineon for this
+software. See the [user manual](Doc/TPMFactoryUpd_UserManual.pdf) for detailed
+instrcutions on using the firmware update tool. Additionally there is official
+[source code documentation](Doc/TPMFactoryUpdLinuxDoc).
+
 ## Build
 Requirements: 
 * openssl-1.0
@@ -18,7 +23,7 @@ https://blog.3mdeb.com/2019/2019-04-17-roca/
 ```
 $ ./Source/TPMFactoryUpd/TPMFactoryUpd
   **********************************************************************
-  *    Infineon Technologies AG   TPMFactoryUpd   Ver 01.01.2459.00    *
+  *    Infineon Technologies AG   TPMFactoryUpd   Ver 01.01.2529.00    *
   **********************************************************************
 
 Call: TPMFactoryUpd [parameter] [parameter] ...
@@ -74,7 +79,7 @@ Parameters:
 
 ## Sources
 Main archive:
-https://gsdview.appspot.com/chromeos-localmirror/distfiles/infineon-firmware-updater-1.1.2459.0.tar.gz
+https://www.supermicro.com/wdl/driver/TPM/TPM_FU_v1.01.2529.00_ToolsOnly_Linux_SourceCode.tar.gz
 
 Patches:
 * https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/chromeos-base/infineon-firmware-updater/files/openssl-1.1.patch
