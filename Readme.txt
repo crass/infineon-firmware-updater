@@ -119,7 +119,7 @@ Kernel/tpm_tis-ignore-self-test-      Linux kernel patch for Linux version
 failed.patch                          <= 4.9
 
 Kernel/tpm-interface_ignore-self-     Linux kernel patch for Linux version
-test-failed.patch                     >= 4.10
+test-failed.patch                     >= 4.10 and < 5.0
 
 Source/**/*.*                         Linux source code for TPMFactoryUpd
 
